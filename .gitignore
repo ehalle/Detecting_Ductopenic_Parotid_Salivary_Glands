@@ -1,5 +1,5 @@
 # Ignore folders
 Dicom*
-Nifty
+Nifty*
 Out
 Result

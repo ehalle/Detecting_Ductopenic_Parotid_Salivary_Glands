@@ -1,3 +1,3 @@
 function createMIPSROI(image, folderName)
-    createMIPS(image, folderName, 'DataROI' ,'roi');
+    createMIPS(image, folderName,'ROI');
 end

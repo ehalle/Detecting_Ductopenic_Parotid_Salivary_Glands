@@ -1,28 +1,19 @@
-function createMIPS(image, name, folderMipsName, type)
+function createMIPS(image, name, folderMipsName)
     global outputPath;
 
-    angles = dataAugmentation(3);
-    % angles = [0; 90; 0];
+    %     angles = dataAugmentation(3);
+    angles = [0; 90; 0];
     
-    dirName = fullfile(outputPath, folderMipsName);
+    dirName = fullfile(outputPath, ['Data', folderMipsName]);
     if(not(isfolder(dirName)))
         mkdir(dirName)
     end
-
-    h = waitbar(0,'Please wait...');
-    nameForWaitBar = strrep(name, ['' ...
-        '], '');
-
-    for i = 1:length(angles)
-        angle = angles(:, i);
+    
+    for angle=angles
         mipPngPath = fullfile(dirName, sprintf('%s_A%d_%d_%d_%s.png', name, ...
-            angle(1), angle(2), angle(3), type));
+            angle(1), angle(2),angle(3), folderMipsName));
         createMIP(image, angle, mipPngPath);
-        waitbar(i / length(angles), h, sprintf('Processing %s ... %d%%', ...
-            nameForWaitBar, round(i / length(angles) * 100)));
     end
-
-    close(h)
 end
 
 % the function takes a step size as input and generates a matrix of 3D
