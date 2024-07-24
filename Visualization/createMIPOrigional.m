@@ -4,7 +4,7 @@ function img = createMIPOrigional(img, folderName)
     splitFolderName = split(folderName, '_');
     side = splitFolderName{end};
     
-    if savePlotsPath
+    if savePlotsPath ~= ""
         mip = convert3DTo2D(img);
         % Crooped image
         [widthImage,heightImage,depthImage] = size(img);

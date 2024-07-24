@@ -1,7 +1,7 @@
 function saveImage(originalImage, newImage, imageName)
     global savePlotsPath;
 
-    if(savePlotsPath)
+    if(savePlotsPath ~= "")
         if(islogical(newImage))
             newImage = int16(newImage) .* originalImage;
         end
