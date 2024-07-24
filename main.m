@@ -3,8 +3,6 @@ clear
 close all
 
 initPath();
-groups = ["Basic", "Moderate", "Severe"];
-
 casesArray = getCasesArray();
 
 for i=1:length(casesArray)
