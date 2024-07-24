@@ -1,4 +1,4 @@
-function hessianMask = analyzeHessian(rawHessianImage, hessianScale, hessianThreshold)
+function hessianMask = analyzeHessian(rawHessianImage, hessianScale)
     % ANALYZEHESSIAN - Analyzes a Hessian image to create a binary mask.
     %
     % This function takes a raw Hessian image and a scaling factor as input,
@@ -25,7 +25,8 @@ function hessianMask = analyzeHessian(rawHessianImage, hessianScale, hessianThre
         arg_name = possible_path_args{i};
         eval(sprintf('if isa(%1$s, ''char''), %1$s = load_img_from_nii(%1$s); end', arg_name));
     end
-      
+    
+    hessianThreshold = 0.015;
     hessianMask = rawHessianImage > hessianThreshold * hessianScale;
 
     myLog('Hessian analayze end: %.f seconds', myToc);

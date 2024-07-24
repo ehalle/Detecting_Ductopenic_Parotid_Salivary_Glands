@@ -1,4 +1,4 @@
-function segmentation = segment(ROIImage, imageName, hessianThreshold)
+function segmentation = segment(ROIImage, imageName)
     global sourceData;
 
     tic
@@ -16,7 +16,7 @@ function segmentation = segment(ROIImage, imageName, hessianThreshold)
     end
     
     rawHessianImage = hessian.Iout;
-    hessianAnalyze = analyzeHessian(rawHessianImage, hessian.scale, hessianThreshold);
+    hessianAnalyze = analyzeHessian(rawHessianImage, hessian.scale);
 
     saveImage(ROIImage, ROIImage, '1_ROI.png');
     saveImage(ROIImage, rawHessianImage, '2_Hessian_with_out_threshold.png');
