@@ -19,7 +19,7 @@ function segmentation = segment(ROIImage, imageName)
     hessianAnalyze = analyzeHessian(rawHessianImage, hessian.scale);
 
     saveImage(ROIImage, ROIImage, '1_ROI.png');
-    saveImage(ROIImage, rawHessianImage, '2_Hessian_with_out_threshold.png');
+    saveImage(ROIImage, rawHessianImage > 0.015, '2_Hessian_with_out_threshold.png');
     saveImage(ROIImage, hessianAnalyze, '3_Hessian_with_threshold.png');
     
     %%  Hessian filtered ROI -> final ROI
