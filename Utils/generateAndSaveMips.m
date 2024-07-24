@@ -1,6 +1,10 @@
 function generateAndSaveMips(volumePath)
     global savePlotsPath;
 
+    if savePlotsPath == ""
+        return
+    end
+
     % Load the NIfTI volume
     volume = niftiread(volumePath);
     
