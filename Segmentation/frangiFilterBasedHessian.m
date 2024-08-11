@@ -35,7 +35,7 @@ function [hessian] = frangiFilterBasedHessian(image, sigma1, sigma2)
     options.FrangiScaleRange= [sigma1 sigma2];
     options.FrangiScaleRatio= 1;
     options.BlackWhite= false;
-    options.verbose= true;
+    options.verbose= false;
     
     [Iout, scale] = FrangiFilter3D(image, options);
     hessian.Iout = Iout;
