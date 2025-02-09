@@ -2,6 +2,6 @@
 % parameters
 function mip = createMIP(img, angles, pngPath)
     img = rotate3D(img, angles);
-    mip = convert3DTo2D(img);    
+    mip = convert3DTo2D(img);
     saveNewImage(uint8(mip), pngPath)
 end
