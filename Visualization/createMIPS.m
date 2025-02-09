@@ -1,7 +1,7 @@
 function createMIPS(image, name, folderMipsName)
     global outputPath;
 
-    %     angles = dataAugmentation(3);
+    % angles = dataAugmentation(3);
     angles = [0; 90; 0];
     
     dirName = fullfile(outputPath, ['Data', folderMipsName]);

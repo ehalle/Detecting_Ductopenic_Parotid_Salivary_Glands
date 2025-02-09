@@ -24,7 +24,7 @@ function folderName = createGlobals(fullPath)
     windowWidth = info.WindowWidth;
     pixelSpacing = mean(info.PixelSpacing);
     sourceData = fullfile(niftyPath, group, folderName);
-    outputPath = fullfile(pwd, 'Out', 'DataAll/','Data', group, folderName);
+    outputPath = fullfile(pwd, 'Out', 'DataTwoGroups/','Data', group, folderName);
 
     if isRunningTest && exist('savePlotsPath', 'var') && ~exist(savePlotsPath, 'dir') 
         % If the directory doesn't exist, create it

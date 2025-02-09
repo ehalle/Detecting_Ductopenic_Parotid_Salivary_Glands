@@ -1,4 +1,5 @@
-function deepLearningAlexnet(folderDataName, options)
+function deepLearningResnet101(folderDataName)
+
     clearvars -except folderDataName options
     close all
     
@@ -7,32 +8,44 @@ function deepLearningAlexnet(folderDataName, options)
         'IncludeSubfolders', true,...
         'FileExtensions', [".jpg",".png"],...
         'LabelSource','foldernames');
-
+    
     imdsValidation = imageDatastore(strcat(folderDataName,'\Test'),...
         'IncludeSubfolders', true,...
         'FileExtensions', [".jpg",".png"],...
         'LabelSource','foldernames');
     
-    net = alexnet;
-    netName = 'Alexnet';
-    prebuiltLayers = net.Layers(1:end-3);
-    layers = [prebuiltLayers;fullyConnectedLayer(3);softmaxLayer;classificationLayer];
-    
-        
+
+    % Load the pre-trained model, ResNet-101
+    net = resnet101;
+    netName = 'Resnet';
+    lgraph = layerGraph(net);
     inputSize = net.Layers(1).InputSize(1:2);
+    
     imageAugmenter = options.imageAugmenter;
     if not(isempty(imageAugmenter))
         trainds = augmentedImageDatastore(inputSize,imdsTrain,...
             'DataAugmentation',imageAugmenter,'ColorPreprocessing','gray2rgb');
     else
         trainds = augmentedImageDatastore(inputSize,imdsTrain,'ColorPreprocessing','gray2rgb');
-        
     end
 
-    testds = augmentedImageDatastore(inputSize,imdsValidation,'ColorPreprocessing','gray2rgb');
+    validationds = augmentedImageDatastore(inputSize,imdsValidation,'ColorPreprocessing','gray2rgb');
 
+    learnableLayer='fc1000';
+    classLayer='ClassificationLayer_predictions';
 
-    % Options
+    % Modify the network for the current task
+    numClasses = numel(categories(imdsValidation.Labels));
+    newLearnableLayer = fullyConnectedLayer(numClasses, ...
+        'Name','new_fc', ...
+        'WeightLearnRateFactor',10, ...
+        'BiasLearnRateFactor',10);
+    lgraph = replaceLayer(lgraph,learnableLayer,newLearnableLayer);
+    newClassLayer = classificationLayer('Name','new_classoutput');
+    lgraph = replaceLayer(lgraph,classLayer,newClassLayer);
+    
+
+    % Options    
     solverName = options.solverName;
     initialLearnRate = options.initialLearnRate;
     miniBatchSize = options.miniBatchSize;
@@ -43,25 +56,21 @@ function deepLearningAlexnet(folderDataName, options)
             currentMiniBatchSize = miniBatchSize(i);
             currentInitialLearningRate = initialLearnRate(k);
             currentSolverName = solverName(j);
-            valFrequency = max(floor(numel(testds.Files)/currentMiniBatchSize)*10,1);
+            valFrequency = max(floor(numel(validationds.Files)/currentMiniBatchSize)*10,1);
             topts = trainingOptions(currentSolverName,...
                 'InitialLearnRate',currentInitialLearningRate,...
-                'MaxEpochs',30,...
+                'MaxEpochs',15,...
                 'MiniBatchSize',currentMiniBatchSize,...
-                'ValidationData',testds, ...
+                'ValidationData',validationds, ...
                 'ValidationFrequency',valFrequency, ...
                 'Verbose',false,...
                 'Plots','training-progress');
 
-            [net,info] = trainNetwork(trainds,layers,topts);
+            % Train the network
+            net = trainNetwork(trainds,lgraph,topts);
 
-            [YPred,probs] = classify(net,testds);
-            YTrue = imdsValidation.Labels;
-            accuracy = nnz(YPred == YTrue)/numel(YPred);
-
-            % savePlots confision matrix and training progress        
-            savePlots(folderDataName,net,netName,currentSolverName,...
-                currentInitialLearningRate,currentMiniBatchSize,YTrue,YPred);
+            savePlots(folderDataName, netName, currentSolverName,currentInitialLearningRate, ...
+                currentMiniBatchSize, "validation", imdsValidation.Labels, classify(net, validationds));
             
             nameFolder = fullfile(folderDataName,'Output',netName,currentSolverName);
             paramters = sprintf('%d_%d_%d',currentInitialLearningRate,currentMiniBatchSize);

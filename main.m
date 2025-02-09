@@ -2,7 +2,7 @@ clc
 clear
 close all
 
-initPath();
+addFoldersToPath();
 casesArray = getCasesArray();
 
 for i=1:length(casesArray)
@@ -39,3 +39,17 @@ for i=1:length(casesArray)
         fprintf(1,'There was an error! The message was:\n%s\n',e.message);
     end
 end
+
+function addFoldersToPath()
+    global niftyPath;
+    global isRunningTest;
+
+    niftyPath = fullfile(pwd, "Nifty");
+    isRunningTest = false;
+    folderNames = {'Externals', 'Utils', 'Visualization', 'Segmentation', 'Scripts'};
+    
+    for i = 1:length(folderNames)
+        addpath(genpath(fullfile(pwd,folderNames{i})))
+    end
+end
+

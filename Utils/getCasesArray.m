@@ -1,7 +1,7 @@
 function casesArray = getCasesArray()
     dicomPath = fullfile(pwd, "Dicom");
     dirPath = uigetdir(dicomPath);
-    groups = ["Basic","Moderate", "Severe"];
+    groups = ["Basic","Moderate", "Severe", "Ductopenia", "Normal"];
 
     if isequal(dirPath, 0)
         disp('User canceled the operation.');
