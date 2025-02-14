@@ -1,4 +1,4 @@
-function augimdsTrain = createAugmentedData(imdsTrain, inputSize)
+function [augimdsTrain, augimdsTest, augimdsValidation] = createAugmentedData(imdsTrain, imdsTest, imdsValidation, inputSize)
     % Create augmented datastores for training and validation
 
     % pixelRange = [-30 30];
@@ -21,5 +21,7 @@ function augimdsTrain = createAugmentedData(imdsTrain, inputSize)
     else
         augimdsTrain = augmentedImageDatastore(inputSize(1:2), imdsTrain, 'ColorPreprocessing', 'gray2rgb');
     end
-    
+
+    augimdsValidation = augmentedImageDatastore(inputSize,imdsValidation,'ColorPreprocessing','gray2rgb');
+    augimdsTest = augmentedImageDatastore(inputSize,imdsTest,'ColorPreprocessing','gray2rgb');
 end

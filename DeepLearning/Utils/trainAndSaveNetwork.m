@@ -1,11 +1,11 @@
-function [net, params] = trainAndSaveNetwork(augimdsTrain, imdsValidation, lgraph, folderDataName, netName)
+function [net, params] = trainAndSaveNetwork(augimdsTrain, augimdsValidation, lgraph, folderDataName, netName)
     % TRAINANDSAVENETWORK Trains the deep learning model and saves it.
     % Returns the trained network and the training options used.
 
     % Define hyperparameters in a struct (single source of truth)
     params.solverName = "sgdm";
     params.initialLearningRate = 0.0001;
-    params.maxEpochs = 30;
+    params.maxEpochs = 15;
     params.miniBatchSize = 64;
 
     % Define training options
@@ -13,7 +13,7 @@ function [net, params] = trainAndSaveNetwork(augimdsTrain, imdsValidation, lgrap
         'InitialLearnRate', params.initialLearningRate, ...
         'MaxEpochs', params.maxEpochs, ...
         'MiniBatchSize', params.miniBatchSize, ...
-        'ValidationData', imdsValidation, ...
+        'ValidationData', augimdsValidation, ...
         'Verbose', false, ...
         'Plots', 'training-progress');
 

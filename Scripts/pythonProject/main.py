@@ -9,9 +9,9 @@ tk.Tk().withdraw()
 folder_path = filedialog.askdirectory(initialdir="F:/Elia/salivary/Out")
 
 # Define the data parameters
-folder_data_name = "DataSegment"
-groups = ["Basic", "Moderate", "Severe"]
-data_splits = ["Train", "Test"]
+folder_data_name = "DataRoi"
+groups = ["Ductopenia", "Normal"]
+data_splits = ["Train", "Test", "Validation"]
 
 # Create an instance of DataSplitter with the provided parameters
 splitter = DataSplitter(folder_path, folder_data_name, groups, data_splits)

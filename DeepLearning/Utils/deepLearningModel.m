@@ -11,11 +11,11 @@ function deepLearningModel(folderDataName, modelType)
     [lgraph, inputSize, netName] = prepareModel(modelType, imdsTrain);
 
     % 4️⃣ Create Augmented Datastores
-    augimdsTrain = createAugmentedData(imdsTrain, imdsTest, inputSize);
+    [augimdsTrain, augimdsTest, augimdsValidation] = createAugmentedData(imdsTrain, imdsTest, imdsValidation, inputSize);
 
     % 5️⃣ Train and Save Network
-    [net, params] = trainAndSaveNetwork(augimdsTrain, imdsValidation, lgraph, folderDataName, netName);
+    [net, params] = trainAndSaveNetwork(augimdsTrain, augimdsValidation, lgraph, folderDataName, netName);
     
     % 6️⃣ Evaluate Model using the trained network
-    evaluateNetwork(net, imdsTest, folderDataName, netName, params);
+    evaluateNetwork(net, augimdsTest, folderDataName, netName, params);
 end

@@ -3,3 +3,7 @@ Dicom*
 Nifty*
 Out
 Result
+DeepLearning/Scripts/Nets
+Scripts/.idea
+Scripts/pythonProject/.idea
+Scripts/pythonProject/__pycache__

@@ -12,7 +12,7 @@ def copy_png_file(source_directory, target_directory):
             if os.path.isdir(data_segment_dir):
                 if root.split('\\')[1] in ['Ductopenia', 'Normal']:
                     for file_name in os.listdir(data_segment_dir):
-                        if '0_90_0' in file_name.lower() or 'cropped_rotate' in file_name.lower() or 'roi' in file_name.lower():
+                        if '0_90_0' in file_name.lower():
                             source_file_path = os.path.join(data_segment_dir, file_name)
                             target_file_path = os.path.join(target_directory, os.path.basename(root))
                             os.makedirs(target_file_path, exist_ok=True)
@@ -20,7 +20,7 @@ def copy_png_file(source_directory, target_directory):
             if os.path.isdir(data_roi_dir):
                 if root.split('\\')[1] in ['Ductopenia', 'Normal']:
                     for file_name in os.listdir(data_roi_dir):
-                        if '0_90_0' in file_name.lower() or 'cropped_rotate' in file_name.lower() or 'roi' in file_name.lower():
+                        if '0_90_0' in file_name.lower():
                             source_file_path = os.path.join(data_roi_dir, file_name)
                             target_file_path = os.path.join(target_directory, os.path.basename(root))
                             os.makedirs(target_file_path, exist_ok=True)
